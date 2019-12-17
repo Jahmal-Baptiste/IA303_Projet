@@ -28,7 +28,7 @@ def tseitin(f):
         new_variable_name = 'p0'
         name_number       = 0
         while new_variable_name in names:
-            name_number += 1
+            name_number      += 1
             new_variable_name = 'p' + str(name_number)
 
         p = algebra.parse(new_variable_name)
