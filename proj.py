@@ -1,4 +1,5 @@
 import boolean, numpy as np
+algebra = boolean.BooleanAlgebra()
 
 #--------------------------------------------------------------------------------------------
 # création d'un fichier .cnf
@@ -8,7 +9,7 @@ expression = '' #expression booléenne sur laquelle travailler
 
 
 ### Lire une formule logique sous forme d’une chaîne de caractères
-algebra = boolean.BooleanAlgebra()
+
 parsed  = algebra.parse(expression)
 
 
@@ -92,9 +93,7 @@ def DPLL(F, M):
     if SATvalue != -1:
         return SATvalue, M
     
-    #print('Before propag:\nF:\n' + str(F) + '\nM:\n' + str(M) + '\n')
     F, M         = UnitPropagate(F, M)
-    #print ('After propag:\nF:\n' + str(F) + '\nM:\n' + str(M) + '\n')
     SATvalue     = SATTest(F, M)
     if SATvalue != -1:
         return SATvalue, M
@@ -191,7 +190,7 @@ def IsTrue(c, F, M):
 
 def tseitin(f):
     if type(f) == boolean.boolean.Symbol and len(f.get_symbols()) == 1:
-        return f, f #impossible d'avoir une expression vide...
+        return f, f #impossible d'avoir une expression vide pour c...
     
     elif type(f) == boolean.boolean.NOT:
         nonf = (~f).demorgan() #pour simplifier la double négation
@@ -222,8 +221,8 @@ def tseitin(f):
         p = algebra.parse(new_variable_name)
 
         if f.operator == '|':
-            c = algebra.parse('c') #à implémenter
+            c = algebra.parse('c') #TODO: écrire la bonne formule
             return p, c
         if f.operator == '&':
-            c = algebra.parse('c') #à implémenter
+            c = algebra.parse('c') #TODO: écrire la bonne formule
             return p, c

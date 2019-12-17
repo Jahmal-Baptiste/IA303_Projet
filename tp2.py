@@ -9,9 +9,9 @@ def DPLL(F, M):
     if SATvalue != -1:
         return SATvalue, M
     
-    #print('Before propag:\nF:\n' + str(F) + '\nM:\n' + str(M) + '\n')
+    print('Before propag:\nF:\n' + str(F) + '\nM:\n' + str(M) + '\n')
     F, M         = UnitPropagate(F, M)
-    #print ('After propag:\nF:\n' + str(F) + '\nM:\n' + str(M) + '\n')
+    print ('After propag:\nF:\n' + str(F) + '\nM:\n' + str(M) + '\n')
     SATvalue     = SATTest(F, M)
     if SATvalue != -1:
         return SATvalue, M
