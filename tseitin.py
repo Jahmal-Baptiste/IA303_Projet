@@ -34,8 +34,15 @@ def tseitin(f):
         p = algebra.parse(new_variable_name)
 
         if f.operator == '|':
-            c = algebra.parse('c') #TODO: écrire la bonne formule
+            p_  = ~p | p1 | p2
+            p_1 = p  | (~p1).demorgan()
+            p_2 = p  | (~p2).demorgan()
+            c   = p_ & p_1 & p_2 & c1 & c2
             return p, c
-        if f.operator == '&':
-            c = algebra.parse('c') #TODO: écrire la bonne formule
+        
+        elif f.operator == '&':
+            p_  = p  | (~p1).demorgan() | (~p2).demorgan()
+            p_1 = ~p | p1
+            p_2 = ~p | p2
+            c   = p_ & p_1 & p_2 & c1 & c2
             return p, c

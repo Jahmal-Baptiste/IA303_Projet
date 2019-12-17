@@ -189,7 +189,7 @@ def IsTrue(c, F, M):
 ### Extension : transformation de Tseitin
 
 def tseitin(f):
-    if type(f) == boolean.boolean.Symbol and len(f.get_symbols()) == 1:
+    if type(f) == boolean.boolean.Symbol:
         return f, f #impossible d'avoir une expression vide pour c...
     
     elif type(f) == boolean.boolean.NOT:
@@ -201,9 +201,8 @@ def tseitin(f):
         f1 = f.args[0]
         f2 = f.args[1]
         n  = len(f.args)
-        if n > 2:
-            for k in range(1, n-2):
-                f2 = f2 | f.args[k]
+        for k in range(2, n):
+            f2 = f2 | f.args[k]
         
         p1, c1 = tseitin(f1) #comme définis dans l'algorithme
         p2, c2 = tseitin(f2) #comme définis dans l'algorithme
@@ -215,14 +214,21 @@ def tseitin(f):
         new_variable_name = 'p0'
         name_number       = 0
         while new_variable_name in names:
-            name_number += 1
+            name_number      += 1
             new_variable_name = 'p' + str(name_number)
 
         p = algebra.parse(new_variable_name)
 
         if f.operator == '|':
-            c = algebra.parse('c') #TODO: écrire la bonne formule
+            p_  = ~p | p1 | p2
+            p_1 = p  | (~p1).demorgan()
+            p_2 = p  | (~p2).demorgan()
+            c   = p_ & p_1 & p_2 & c1 & c2
             return p, c
-        if f.operator == '&':
-            c = algebra.parse('c') #TODO: écrire la bonne formule
+        
+        elif f.operator == '&':
+            p_  = p  | (~p1).demorgan() | (~p2).demorgan()
+            p_1 = ~p | p1
+            p_2 = ~p | p2
+            c   = p_ & p_1 & p_2 & c1 & c2
             return p, c
